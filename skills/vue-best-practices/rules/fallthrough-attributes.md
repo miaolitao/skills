@@ -1,7 +1,7 @@
 ---
 title: Enable Fallthrough Attributes Type Checking
-impact: HIGH
-impactDescription: enables type-safe fallthrough attributes in component libraries
+impact: MEDIUM
+impactDescription: enables IDE autocomplete for fallthrough attributes in wrapper components
 type: capability
 tags: fallthroughAttributes, vueCompilerOptions, component-library, wrapper-components
 ---
