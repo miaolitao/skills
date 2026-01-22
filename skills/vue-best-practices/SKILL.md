@@ -43,7 +43,6 @@ metadata:
 |------|----------|-------------|
 | [runtime-env-variables](rules/runtime-env-variables.md) | env, runtime, environment, deploy | Runtime environment variables |
 | [hmr-vue-ssr](rules/hmr-vue-ssr.md) | hmr, ssr, hot reload | Fix HMR in SSR apps |
-| [define-expose-types](rules/define-expose-types.md) | defineExpose, exposed, property not exist | Type exposed methods |
 | [provide-inject-types](rules/provide-inject-types.md) | provide, inject, InjectionKey | Type-safe dependency injection |
 | [route-meta-types](rules/route-meta-types.md) | route meta, RouteMeta, typed | Extend RouteMeta interface |
 | [scroll-behavior-types](rules/scroll-behavior-types.md) | scrollBehavior, router, type | Type scrollBehavior function |
