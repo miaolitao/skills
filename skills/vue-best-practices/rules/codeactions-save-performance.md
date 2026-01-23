@@ -3,6 +3,7 @@ title: Fix Slow Save Times with Code Actions Setting
 impact: HIGH
 impactDescription: fixes 30-60 second save delays in large Vue projects
 type: capability
+category: typescript
 tags: performance, save-time, vscode, code-actions, volar
 ---
 

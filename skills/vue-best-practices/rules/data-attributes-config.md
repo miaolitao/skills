@@ -3,6 +3,7 @@ title: Allow Data Attributes with Strict Templates
 impact: MEDIUM
 impactDescription: fixes data-testid and data-* attribute errors in strict mode
 type: capability
+category: typescript
 tags: dataAttributes, vueCompilerOptions, strictTemplates, data-testid, testing
 ---
 

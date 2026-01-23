@@ -3,6 +3,7 @@ title: Enable Fallthrough Attributes Type Checking
 impact: MEDIUM
 impactDescription: enables IDE autocomplete for fallthrough attributes in wrapper components
 type: capability
+category: typescript
 tags: fallthroughAttributes, vueCompilerOptions, component-library, wrapper-components
 ---
 

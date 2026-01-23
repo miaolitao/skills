@@ -3,6 +3,7 @@ title: Enable Strict CSS Modules Type Checking
 impact: MEDIUM
 impactDescription: catches typos in CSS module class names at compile time
 type: capability
+category: typescript
 tags: strictCssModules, vueCompilerOptions, css-modules, style-module
 ---
 

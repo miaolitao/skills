@@ -3,6 +3,7 @@ title: Vue Template Directive Comments
 impact: HIGH
 impactDescription: enables fine-grained control over template type checking
 type: capability
+category: typescript
 tags: vue-directive, vue-ignore, vue-expect-error, vue-skip, template, type-checking
 ---
 

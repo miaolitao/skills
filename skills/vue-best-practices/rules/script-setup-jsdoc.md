@@ -3,6 +3,7 @@ title: JSDoc Documentation for Script Setup Components
 impact: MEDIUM
 impactDescription: enables proper documentation for composition API components
 type: capability
+category: pattern
 tags: jsdoc, script-setup, documentation, composition-api, component
 ---
 

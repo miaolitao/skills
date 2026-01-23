@@ -3,6 +3,7 @@ title: withDefaults Incorrect Default with Union Types
 impact: MEDIUM
 impactDescription: fixes spurious "Missing required prop" warning with union type props
 type: capability
+category: typescript
 tags: withDefaults, defineProps, union-types, defaults, vue-3.5
 ---
 

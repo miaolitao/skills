@@ -3,6 +3,7 @@ title: Enable Strict Template Checking
 impact: HIGH
 impactDescription: catches undefined components and props at compile time
 type: capability
+category: typescript
 tags: vue-tsc, typescript, type-checking, templates, vueCompilerOptions
 ---
 

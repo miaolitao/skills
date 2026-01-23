@@ -3,6 +3,7 @@ title: Extract Component Props
 impact: HIGH
 impactDescription: extract props, emits, slots types from .vue components
 type: capability
+category: typescript
 tags: typescript, props, emits, slots, vue-component-type-helpers, wrapper, ComponentProps
 ---
 

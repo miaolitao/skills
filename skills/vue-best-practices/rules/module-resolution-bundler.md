@@ -3,6 +3,7 @@ title: moduleResolution Bundler Migration Issues
 impact: HIGH
 impactDescription: fixes "Cannot find module" errors after @vue/tsconfig upgrade
 type: capability
+category: typescript
 tags: moduleResolution, bundler, tsconfig, vue-tsconfig, node, esm
 ---
 
