@@ -35,14 +35,6 @@ This explicitly triggers the skill and ensures the AI follows the documented pat
 | **vue-development-guides** | Building a Vue/Nuxt project | Component splitting, data flow, core principles |
 | **create-adaptable-composable** | Creating reusable composables | `MaybeRef`/`MaybeRefOrGetter` input patterns |
 
-## Rule Types
-
-Rules are classified into two categories:
-
-- **Capability**: AI *cannot* solve the problem without the skill. These address version-specific issues, undocumented behaviors, recent features, or edge cases outside AI's training data.
-
-- **Efficiency**: AI *can* solve the problem but not well. These provide optimal patterns, best practices, and consistent approaches that improve solution quality.
-
 ## Examples
 
 ### vue-development-guides
@@ -98,6 +90,16 @@ export function useHidden(
 ```
 
 ## Methodology
+
+### Skill Types
+
+Skills are classified into two categories:
+
+- **Capability**: AI *cannot* solve the problem without the skill. These address version-specific issues, undocumented behaviors, recent features, or edge cases outside AI's training data.
+
+- **Efficiency**: AI *can* solve the problem but not well. These provide optimal patterns, best practices, and consistent approaches that improve solution quality.
+
+### Validation Process
 
 Every skill in this repository is created through a rigorous, evidence-based process:
 
