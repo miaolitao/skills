@@ -15,7 +15,7 @@ Agent skills for Vue 3 development.
 ## Installation
 
 ```bash
-npx add-skill hyf0/vue-skills
+npx add-skill vuejs-ai/skills
 ```
 
 ## Usage
