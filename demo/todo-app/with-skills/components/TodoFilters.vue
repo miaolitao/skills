@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Filter } from '../types/todo'
 
+// 组件属性
 const { filter, remaining, completed, total } = defineProps<{
   filter: Filter
   remaining: number
@@ -8,13 +9,16 @@ const { filter, remaining, completed, total } = defineProps<{
   total: number
 }>()
 
+// 定义组件事件
 const emit = defineEmits<{
   setFilter: [filter: Filter]
   clearCompleted: []
 }>()
 
+// 筛选选项数组
 const filters = ['all', 'active', 'completed'] as const
 
+// 筛选选项的显示标签
 const filterLabels: Record<Filter, string> = {
   all: 'All',
   active: 'Active',
@@ -98,27 +102,18 @@ const filterLabels: Record<Filter, string> = {
 
 .clear-button {
   border: 1px solid rgba(214, 107, 77, 0.4);
-  background: rgba(214, 107, 77, 0.1);
-  color: #b24d36;
-  padding: 8px 16px;
+  background: rgba(214, 107, 77, 0.05);
+  color: #d66b4d;
+  padding: 8px 14px;
   border-radius: 999px;
+  font-size: 0.85rem;
   font-weight: 600;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .clear-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(214, 107, 77, 0.22);
-}
-
-@media (max-width: 720px) {
-  .filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .stats {
-    justify-content: space-between;
-  }
+  background: rgba(214, 107, 77, 0.12);
+  border-color: rgba(214, 107, 77, 0.6);
+  box-shadow: 0 6px 14px rgba(214, 107, 77, 0.2);
 }
 </style>

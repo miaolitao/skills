@@ -1,67 +1,67 @@
 ---
 name: vue-development-guides
-description: A collection of best practices and tips for developing applications using Vue.js. This skill MUST be apply when developing, refactoring or reviewing Vue.js or Nuxt projects.
+description: 使用 Vue.js 开发应用程序的最佳实践和技巧集合。在开发、重构或审查 Vue.js 或 Nuxt 项目时必须应用此技能。
 license: MIT
 metadata:
     author: SerKo <https://github.com/serkodev>
     version: "0.1"
-compatibility: Requires Vue 3 (or above) or Nuxt 3 (or above) project
+compatibility: 需要 Vue 3(或更高版本)或 Nuxt 3(或更高版本)项目
 ---
 
-# Vue.js Development Guides
+# Vue.js 开发指南
 
-## Tasks Checklist
+## 任务清单
 
-- [ ] Followed the core principles
-- [ ] Followed the defaults unless there is a good reason not to
-- [ ] Followed the reactivity best practices
-- [ ] Followed the component best practices
-  - [ ] Followed the Vue SFC best practices
-  - [ ] Kept components focused
-    - [ ] Split large components into smaller ones when needed
-    - [ ] Moved state/side effects into composables if applicable
-  - [ ] Followed data flow best practices
+- [ ] 遵循核心原则
+- [ ] 遵循默认设置,除非有充分的理由不这样做
+- [ ] 遵循响应式最佳实践
+- [ ] 遵循组件最佳实践
+  - [ ] 遵循 Vue SFC 最佳实践
+  - [ ] 保持组件专注
+    - [ ] 需要时将大型组件拆分为更小的组件
+    - [ ] 如果适用,将状态/副作用移至组合式函数
+  - [ ] 遵循数据流最佳实践
 
 ---
 
-## Core Principles
-- **Keep state predictable:** one source of truth, derive everything else.
-- **Make data flow explicit:** Props down, Events up for most cases.
-- **Favor small, focused components:** easier to test, reuse, and maintain.
-- **Avoid unnecessary re-renders:** use computed properties and watchers wisely.
-- **Readability counts:** write clear, self-documenting code.
+## 核心原则
+- **保持状态可预测:** 单一数据源,派生其他所有内容。
+- **使数据流显式化:** 大多数情况下使用 Props 向下,Events 向上。
+- **偏好小而专注的组件:** 更易于测试、复用和维护。
+- **避免不必要的重新渲染:** 明智地使用计算属性和侦听器。
+- **可读性很重要:** 编写清晰、自文档化的代码。
 
-## Defaults (unless the user says otherwise)
+## 默认设置(除非用户另有说明)
 
-- Prefer the **Composition API** over the Options API.
+- 优先使用 **Composition API** 而不是 Options API。
 
-## Reactivity
+## 响应式
 
-IMPORTANT: You MUST follow the `references/reactivity-guide.md` for reactive state management when creating, updating a component or a composable.
+重要提示: 在创建或更新组件或组合式函数时,必须遵循 `references/reactivity-guide.md` 进行响应式状态管理。
 
-## Components
+## 组件
 
-IMPORTANT: You MUST follow the `references/sfc-guide.md` for best practices when working with Vue SFCs.
+重要提示: 在使用 Vue SFC 时,必须遵循 `references/sfc-guide.md` 的最佳实践。
 
-- Prefer Vue Single-File Components (SFC) using **`<script setup lang="ts">`** (TypeScript) by default.
-- In Vue SFCs, keep sections in this order: `<script>` → `<template>` → `<style>`.
+- 默认优先使用 Vue 单文件组件(SFC),使用 **`<script setup lang="ts">`**(TypeScript)。
+- 在 Vue SFC 中,按以下顺序保持各个部分: `<script>` → `<template>` → `<style>`。
 
-### Keep components focused
+### 保持组件专注
 
-Split a component when it has **more than one clear responsibility** (e.g. data orchestration + UI, or multiple independent UI sections).
+当组件具有**多个明确职责**时拆分组件(例如数据编排 + UI,或多个独立的 UI 部分)。
 
-- Prefer **smaller components + composables** over one “mega component”
-- Move **UI sections** into child components (props in, events out).
-- Move **state/side effects** into composables (`useXxx()`).
+- 优先使用**更小的组件 + 组合式函数**而不是一个"超大组件"
+- 将 **UI 部分**移至子组件(props 传入,events 传出)。
+- 将**状态/副作用**移至组合式函数(`useXxx()`)。
 
-NOTE: This rule also applies to the entry component (e.g. App.vue) in a Vue / Nuxt project by default.
+注意: 默认情况下,此规则也适用于 Vue / Nuxt 项目中的入口组件(例如 App.vue)。
 
-### Data Flow
+### 数据流
 
-IMPORTANT: You MUST follow the `references/data-flow-guide.md` for passing and receiving data between components using:
+重要提示: 必须遵循 `references/data-flow-guide.md` 使用以下方式在组件之间传递和接收数据:
 - Props
 - Emits
 - `v-model`
 - provide/inject
 
-For sharing data across the app, please follow the `references/state-management-guide.md` and consider using a Store for state management solution.
+要在应用程序之间共享数据,请遵循 `references/state-management-guide.md` 并考虑使用 Store 作为状态管理解决方案。

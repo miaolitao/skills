@@ -1,23 +1,23 @@
-# Vue SFC Guide
+# Vue 单文件组件指南
 
-## Tasks Checklist
+## 任务清单
 
-- [ ] Used `v-for` and `v-if` correctly
-- [ ] Followed slot best practices
-- [ ] Access DOM / component refs correctly
-- [ ] Handled fallthrough attributes (`$attrs`) correctly if needed
-- [ ] Used component-scoped styles appropriately
+- [ ] 正确使用 `v-for` 和 `v-if`
+- [ ] 遵循插槽最佳实践
+- [ ] 正确访问 DOM / 组件引用
+- [ ] 如有需要,正确处理透传属性(`$attrs`)
+- [ ] 适当使用组件作用域样式
 
 ---
 
-## `v-for` best practices
+## `v-for` 最佳实践
 
-### Always provide a stable `:key`
+### 始终提供稳定的 `:key`
 
-* Prefer primitive keys (`string | number`).
-* Avoid using objects as keys.
+* 优先使用基本类型键(`string | number`)。
+* 避免使用对象作为键。
 
-Good
+正确示例
 
 ```vue
 <li v-for="item in items" :key="item.id">
@@ -25,13 +25,13 @@ Good
 </li>
 ```
 
-### Avoid `v-if` and `v-for` on the same element
+### 避免在同一元素上使用 `v-if` 和 `v-for`
 
-It leads to unclear intent and unnecessary work.
-([Reference](https://vuejs.org/guide/essentials/list.html#v-for-with-v-if))
+这会导致意图不清晰和不必要的工作。
+([参考](https://vuejs.org/guide/essentials/list.html#v-for-with-v-if))
 
-**To filter items**
-Bad
+**过滤项目**
+错误示例
 
 ```vue
 <li v-for="user in users" v-if="user.active" :key="user.id">
@@ -39,7 +39,7 @@ Bad
 </li>
 ```
 
-Good: filter in computed
+正确示例:在 computed 中过滤
 
 ```vue
 <script setup lang="ts">
@@ -55,8 +55,8 @@ const activeUsers = computed(() => users.value.filter(u => u.active))
 </template>
 ```
 
-**To conditionally show/hide the entire list**
-Good: move `v-if` to a container element or `<template>`
+**条件显示/隐藏整个列表**
+正确示例:将 `v-if` 移到容器元素或 `<template>` 上
 
 ```vue
 <ul v-if="shouldShowUsers">
@@ -66,31 +66,31 @@ Good: move `v-if` to a container element or `<template>`
 </ul>
 ```
 
-## Slot best practices
+## 插槽最佳实践
 
-### Shorthand syntax for named slots
+### 命名插槽的简写语法
 
-Bad: use verbose syntax
+错误示例:使用冗长语法
 ```vue
 <MyComponent>
   <template v-slot:header> ... </template>
 </MyComponent>
 ```
 
-Good: use shorthand syntax
+正确示例:使用简写语法
 ```vue
 <MyComponent>
   <template #header> ... </template>
 </MyComponent>
 ```
 
-[Reference](https://vuejs.org/guide/components/slots.html#named-slots)
+[参考](https://vuejs.org/guide/components/slots.html#named-slots)
 
-## Access DOM / component refs
+## 访问 DOM / 组件引用
 
-For Vue 3.5+: use `useTemplateRef()` to access template refs.
+对于 Vue 3.5+:使用 `useTemplateRef()` 访问模板引用。
 
-Good
+正确示例
 
 ```vue
 <script setup lang="ts">
@@ -108,20 +108,20 @@ onMounted(() => {
 </template>
 ```
 
-## Fallthrough attributes (`$attrs`)
+## 透传属性(`$attrs`)
 
-Fallthrough attributes let consumers pass `class`, `id`, `aria-*`, and listeners onto your component’s root by default.
+透传属性让消费者可以默认将 `class`、`id`、`aria-*` 和监听器传递到组件的根元素上。
 
-When you need control:
+当你需要控制时:
 
-* Disable inheritance
-* Forward `$attrs` to the real target
+* 禁用继承
+* 将 `$attrs` 转发到真正的目标
 
-Good: disable inheritance + forward `$attrs`
+正确示例:禁用继承 + 转发 `$attrs`
 
 ```vue
 <script setup lang="ts">
-// Vue 3.3+ macro
+// Vue 3.3+ 宏
 defineOptions({ inheritAttrs: false })
 </script>
 
@@ -132,22 +132,22 @@ defineOptions({ inheritAttrs: false })
 </template>
 ```
 
-## Prefer component-scoped styles
+## 优先使用组件作用域样式
 
-* Use `<style scoped>` for styles that belong to a component.
-* Keep **global CSS** in a dedicated file (e.g. `src/assets/main.css`) for resets, typography, tokens, etc.
-* Use `:deep()` sparingly (edge cases only).
+* 对属于组件的样式使用 `<style scoped>`。
+* 将**全局 CSS** 保存在专用文件中(例如 `src/assets/main.css`),用于重置、排版、令牌等。
+* 谨慎使用 `:deep()`(仅用于边缘情况)。
 
-Bad: global styles inside random components
+错误示例:随机组件内的全局样式
 
 ```vue
 <style>
-/* ❌ leaks everywhere */
+/* ❌ 泄漏到任何地方 */
 button { border-radius: 999px; }
 </style>
 ```
 
-Good: scoped by default
+正确示例:默认使用 scoped
 
 ```vue
 <style scoped>
@@ -155,10 +155,10 @@ Good: scoped by default
 </style>
 ```
 
-Good: global CSS belongs in a global entry
+正确示例:全局 CSS 属于全局入口
 
 ```css
 /* src/assets/main.css */
-/* ✅ resets, tokens, typography, app-wide rules */
+/* ✅ 重置、令牌、排版、应用级规则 */
 :root { --radius: 999px; }
 ```

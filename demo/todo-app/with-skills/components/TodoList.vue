@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { Todo } from '../types/todo'
 
+// 组件属性
 const { todos, emptyMessage } = defineProps<{
   todos: Todo[]
   emptyMessage: string
 }>()
 
+// 定义组件事件
 const emit = defineEmits<{
   toggle: [id: string]
   remove: [id: string]
@@ -98,89 +100,83 @@ const emit = defineEmits<{
 }
 
 .todo-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 .todo-toggle input {
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 8px;
-  border: 2px solid rgba(31, 42, 42, 0.25);
-  display: grid;
-  place-items: center;
-  background: #fff;
-  transition: background 200ms ease, border-color 200ms ease;
+  opacity: 0;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  margin: 0;
 }
 
-.todo-toggle input::after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  border-radius: 4px;
-  background: #2a8077;
-  transform: scale(0);
-  transition: transform 160ms ease;
+.todo-toggle span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(31, 42, 42, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
-.todo-toggle input:checked {
+.todo-toggle input:checked + span {
+  background: linear-gradient(135deg, #2a8077, #38a89e);
   border-color: #2a8077;
-  background: rgba(42, 128, 119, 0.15);
+  box-shadow: 0 4px 12px rgba(42, 128, 119, 0.4);
 }
 
-.todo-toggle input:checked::after {
-  transform: scale(1);
+.todo-toggle input:checked + span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%) rotate(45deg);
+  width: 6px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
 }
 
 .todo-title {
+  color: var(--color-ink);
   font-size: 1rem;
-  font-weight: 600;
+  word-break: break-word;
+  transition: text-decoration 200ms ease, color 200ms ease;
 }
 
 .todo-item.is-complete .todo-title {
   text-decoration: line-through;
-  color: rgba(31, 42, 42, 0.5);
+  color: var(--color-ink-soft);
 }
 
 .remove-button {
   border: none;
   background: transparent;
-  color: #b24d36;
-  font-weight: 600;
+  color: rgba(214, 107, 77, 0.85);
   padding: 6px 10px;
-  border-radius: 999px;
-  transition: background 200ms ease;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 200ms ease, color 200ms ease;
 }
 
 .remove-button:hover {
   background: rgba(214, 107, 77, 0.12);
+  color: #d66b4d;
 }
 
 @keyframes item-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@media (max-width: 600px) {
-  .todo-item {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
-    align-items: start;
-  }
-
-  .remove-button {
-    grid-column: 2 / 3;
-    justify-self: flex-start;
   }
 }
 </style>

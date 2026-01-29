@@ -1,25 +1,25 @@
 ---
-title: Never Destructure reactive() Objects Directly
+title: 永远不要直接解构 reactive() 对象
 impact: HIGH
-impactDescription: Destructuring reactive objects breaks reactivity - changes won't trigger updates
+impactDescription: 解构 reactive 对象会破坏响应性 - 更改不会触发更新
 type: capability
 tags: [vue3, reactivity, reactive, composition-api, destructuring]
 ---
 
-# Never Destructure reactive() Objects Directly
+# 永远不要直接解构 reactive() 对象
 
-**Impact: HIGH** - Destructuring a `reactive()` object breaks the reactive connection. Updates to destructured variables won't trigger UI updates, leading to stale data display.
+**影响: 高** - 解构 `reactive()` 对象会破坏响应式连接。对解构变量的更新不会触发 UI 更新,导致显示过时的数据。
 
-Vue's `reactive()` uses JavaScript Proxies to track property access. When you destructure, you extract primitive values from the proxy, losing the reactive connection. This is especially dangerous when destructuring from composables or imported state.
+Vue 的 `reactive()` 使用 JavaScript Proxy 来跟踪属性访问。当你解构时,你从代理中提取原始值,失去响应式连接。当从组合式函数或导入的状态解构时,这尤其危险。
 
-## Task Checklist
+## 任务清单
 
-- [ ] Never destructure reactive objects directly if you need reactivity
-- [ ] Use `toRefs()` to convert reactive object properties to refs before destructuring
-- [ ] Consider using `ref()` instead of `reactive()` to avoid this pitfall entirely
-- [ ] When importing state from composables, check if it's reactive before destructuring
+- [ ] 如果需要响应性,永远不要直接解构 reactive 对象
+- [ ] 在解构之前使用 `toRefs()` 将 reactive 对象属性转换为 ref
+- [ ] 考虑完全使用 `ref()` 而不是 `reactive()` 来避免这个陷阱
+- [ ] 从组合式函数导入状态时,在解构之前检查它是否是响应式的
 
-**Incorrect:**
+**错误示例:**
 ```javascript
 import { reactive } from 'vue'
 
@@ -28,27 +28,27 @@ const state = reactive({
   name: 'Vue'
 })
 
-// WRONG: Destructuring breaks reactivity
+// 错误: 解构会破坏响应性
 const { count, name } = state
 
-// These updates work on the original state...
-state.count++  // state.count is now 1
+// 这些更新在原始状态上有效...
+state.count++  // state.count 现在是 1
 
-// ...but the destructured variables are NOT updated
-console.log(count)  // Still 0! Lost reactivity
+// ...但解构的变量不会更新
+console.log(count)  // 仍然是 0! 失去响应性
 ```
 
 ```javascript
-// WRONG: Destructuring from a composable
+// 错误: 从组合式函数解构
 function useCounter() {
   const state = reactive({ count: 0 })
   return state
 }
 
-const { count } = useCounter()  // count is now a non-reactive primitive
+const { count } = useCounter()  // count 现在是一个非响应式的原始值
 ```
 
-**Correct:**
+**正确示例:**
 ```javascript
 import { reactive, toRefs } from 'vue'
 
@@ -57,33 +57,33 @@ const state = reactive({
   name: 'Vue'
 })
 
-// CORRECT: Use toRefs() to maintain reactivity
+// 正确: 使用 toRefs() 保持响应性
 const { count, name } = toRefs(state)
 
 state.count++
-console.log(count.value)  // 1 - Reactivity preserved! (note: now needs .value)
+console.log(count.value)  // 1 - 响应性保持! (注意: 现在需要 .value)
 ```
 
 ```javascript
-// CORRECT: Return toRefs from composables
+// 正确: 从组合式函数返回 toRefs
 function useCounter() {
   const state = reactive({ count: 0 })
-  return toRefs(state)  // Now safe to destructure
+  return toRefs(state)  // 现在可以安全解构
 }
 
-const { count } = useCounter()  // count is now a ref, reactivity preserved
+const { count } = useCounter()  // count 现在是一个 ref,响应性保持
 ```
 
 ```javascript
-// ALTERNATIVE: Just use ref() to avoid the issue entirely
+// 替代方案: 直接使用 ref() 完全避免这个问题
 import { ref } from 'vue'
 
 const count = ref(0)
 const name = ref('Vue')
 
-// No destructuring needed, no gotchas
+// 不需要解构,没有陷阱
 ```
 
-## Reference
-- [Vue.js Reactivity Fundamentals - reactive()](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#reactive)
-- [Vue.js Reactivity API - toRefs()](https://vuejs.org/api/reactivity-utilities.html#torefs)
+## 参考资料
+- [Vue.js 响应式基础 - reactive()](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#reactive)
+- [Vue.js 响应式 API - toRefs()](https://vuejs.org/api/reactivity-utilities.html#torefs)

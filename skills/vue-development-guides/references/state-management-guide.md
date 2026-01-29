@@ -1,21 +1,21 @@
-# State Management Guide (Stores)
+# 状态管理指南(Store)
 
-## Tasks Checklist
+## 任务清单
 
-- [ ] Choose an appropriate store approach if applicable
-  - [ ] Followed best practices for store usage
+- [ ] 如适用,选择合适的 store 方法
+  - [ ] 遵循 store 使用的最佳实践
 
 ---
 
-## Choosing a store approach
+## 选择 store 方法
 
-### Option 1: Store-pattern composable (singleton composable)
+### 选项 1:Store 模式 composable(单例 composable)
 
-* Suitable for Vue SPA and **non-SSR** apps
-* Great for small apps
-* Dependency-free
+* 适用于 Vue SPA 和**非 SSR** 应用
+* 适合小型应用
+* 无依赖
 
-Example
+示例
 
 ```ts
 // useMyStore.ts
@@ -42,15 +42,15 @@ export function useMyStore() {
 }
 ```
 
-### Option 2: VueUse [`createGlobalState`](https://vueuse.org/shared/createGlobalState/)
+### 选项 2:VueUse [`createGlobalState`](https://vueuse.org/shared/createGlobalState/)
 
-* Suitable for Vue SPA and **non-SSR** apps
-* Ideal for small to medium apps
-* Requires VueUse
+* 适用于 Vue SPA 和**非 SSR** 应用
+* 适合小到中型应用
+* 需要 VueUse
 
-### Option 3: [Pinia](https://pinia.vuejs.org/)
+### 选项 3:[Pinia](https://pinia.vuejs.org/)
 
-* **Strongly recommended** for Nuxt and SSR apps
-* Ideal when you need DevTools support, persistence plugins, or action tracing
-* Suitable for large-scale apps
-* Requires Pinia
+* **强烈推荐**用于 Nuxt 和 SSR 应用
+* 当你需要 DevTools 支持、持久化插件或操作追踪时理想选择
+* 适合大型应用
+* 需要 Pinia

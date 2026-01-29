@@ -1,45 +1,45 @@
-# Reactivity Guide
+# 响应式指南
 
-## Tasks Checklist
+## 任务清单
 
-- [ ] Declare reactive state correctly
-- [ ] Avoid destructuring from `reactive()` directly
-- [ ] Watch correctly for `reactive` state if needed
-- [ ] Follow `computed()` best practices
-- [ ] Clean up async effects for watchers
+- [ ] 正确声明响应式状态
+- [ ] 避免直接从 `reactive()` 解构
+- [ ] 如有需要,正确监听 `reactive` 状态
+- [ ] 遵循 `computed()` 最佳实践
+- [ ] 清理监听器的异步副作用
 
 ---
 
-## Declare reactive state correctly in Vue.js
+## 在 Vue.js 中正确声明响应式状态
 
-### Primitive values (string, number, boolean, null, etc.)
+### 基本类型值(string、number、boolean、null 等)
 
-- Always use `shallowRef()` instead of `ref()` for better performance.
+- 为了更好的性能,始终使用 `shallowRef()` 而不是 `ref()`。
 
-### Objects / arrays / Map / Set
+### 对象 / 数组 / Map / Set
 
 - `ref()`:
-  - Use when you often **replace the whole value** (`state.value = newObj`) and still want deep reactivity for nested fields.
+  - 当你经常**替换整个值**(`state.value = newObj`)并且仍然想要嵌套字段的深度响应式时使用。
 - `reactive()`:
-  - Use when you mainly **mutate properties** (`state.count++`, `state.nested.x = ...`) and full replacement is uncommon.
+  - 当你主要**修改属性**(`state.count++`、`state.nested.x = ...`)并且完全替换不常见时使用。
 - `shallowRef()`:
-  - Use for **opaque/non-reactive objects** (class instances, external libs, very large nested data).
-  - Only triggers updates when you replace `state.value` (no deep tracking).
+  - 用于**不透明/非响应式对象**(类实例、外部库、非常大的嵌套数据)。
+  - 只在你替换 `state.value` 时触发更新(没有深度跟踪)。
 - `shallowReactive()`:
-  - Use when you want **only top-level properties reactive**; nested objects stay raw.
+  - 当你只想要**顶层属性是响应式的**时使用;嵌套对象保持原始状态。
 
-Bad: using `reactive()` for replaceable state. ([Reference](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive))
+错误示例:对可替换状态使用 `reactive()`。([参考](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive))
 
 ```ts
 let user = reactive({ id: 1, name: 'Tom' })
 
 async function reload() {
-  // ❌ Replacing the proxy breaks references held elsewhere
+  // ❌ 替换代理会破坏其他地方持有的引用
   user = reactive(await fetchUser())
 }
 ```
 
-Good: use a `ref()` for replaceable objects
+正确示例:对可替换对象使用 `ref()`
 
 ```ts
 const user = ref<{ id: number; name: string }>()
@@ -49,55 +49,55 @@ async function reload() {
 }
 ```
 
-## Avoid destructuring from `reactive()` directly
+## 避免直接从 `reactive()` 解构
 
-Bad: Destructuring breaks reactivity for primitives.
+错误示例:解构会破坏基本类型的响应式。
 
 ```ts
 const state = reactive({ count: 0 })
-const { count } = state // ❌ disconnected from reactivity
+const { count } = state // ❌ 与响应式断开连接
 ```
 
-### Watch correctly for reactive
+### 正确监听 reactive
 
-Bad: passing a non-getter value into `watch()`
+错误示例:将非 getter 值传入 `watch()`
 
 ```ts
 const state = reactive({ count: 0 })
 
-// ❌ watch expects a getter, ref, reactive object, or array of these
+// ❌ watch 期望 getter、ref、reactive 对象或这些的数组
 watch(state.count, () => { /* ... */ })
 ```
 
-Good: preserve reactivity with `toRefs()` and use a getter for `watch()`
+正确示例:使用 `toRefs()` 保持响应式,并对 `watch()` 使用 getter
 
 ```ts
 const state = reactive({ count: 0 })
-const { count } = toRefs(state) // ✅ count is a ref
+const { count } = toRefs(state) // ✅ count 是一个 ref
 
 watch(() => state.count, () => { /* ... */ }) // ✅
 ```
 
-## `computed()` best practices
+## `computed()` 最佳实践
 
-### Keep computed getters pure (no side effects)
+### 保持计算属性 getter 纯净(无副作用)
 
-A computed getter should only derive a value. No mutation, no API calls, no storage writes, no event emits.
-([Reference](https://vuejs.org/guide/essentials/computed.html#best-practices))
+计算属性 getter 应该只派生一个值。不要进行修改、API 调用、存储写入或事件发射。
+([参考](https://vuejs.org/guide/essentials/computed.html#best-practices))
 
-Bad: side effects inside computed
+错误示例:computed 内部有副作用
 
 ```ts
 const count = ref(0)
 
 const doubled = computed(() => {
-  // ❌ side effect
+  // ❌ 副作用
   if (count.value > 10) console.warn('Too big!')
   return count.value * 2
 })
 ```
 
-Good: pure computed + `watch()` for side effects
+正确示例:纯净的 computed + `watch()` 处理副作用
 
 ```ts
 const count = ref(0)
@@ -108,37 +108,37 @@ watch(count, (value) => {
 })
 ```
 
-### Prefer computed over “derived state stored in refs”
+### 优先使用 computed 而不是"存储在 ref 中的派生状态"
 
-If a value is fully derived from other state, **store the source of truth** and compute the derived value.
+如果一个值完全从其他状态派生,**存储真实数据源**并计算派生值。
 
 ```ts
 const firstName = ref('John')
 const lastName = ref('Doe')
 
-// ❌ derived state stored and manually synced
+// ❌ 派生状态存储并手动同步
 const fullName = ref('John Doe')
 watch([firstName, lastName], () => {
   fullName.value = `${firstName.value} ${lastName.value}`
 })
 
-// ✅ single source of truth + derived value
+// ✅ 单一数据源 + 派生值
 const fullName = computed(() => `${firstName.value} ${lastName.value}`)
 ```
 
-### Computed vs function call in templates
+### Computed 与模板中的函数调用
 
-* `computed()` is cached based on dependencies.
-* Methods/functions run whenever the component renders.
+* `computed()` 基于依赖进行缓存。
+* 方法/函数在组件每次渲染时都会运行。
 
-Bad: expensive work inside template method
+错误示例:模板方法中的高开销工作
 
 ```vue
 <script setup lang="ts">
 const items = ref<number[]>([])
 
 function expensiveFilter(values: number[]) {
-  // ❌ imagine this is heavy
+  // ❌ 假设这是高开销的
   return values.filter(x => x % 2 === 0).sort((a, b) => a - b)
 }
 </script>
@@ -148,7 +148,7 @@ function expensiveFilter(values: number[]) {
 </template>
 ```
 
-Good: computed for expensive derived data
+正确示例:对高开销派生数据使用 computed
 
 ```vue
 <script setup lang="ts">
@@ -168,11 +168,11 @@ const filtered = computed(() => {
 </template>
 ```
 
-## Clean up async effects for watchers
+## 清理监听器的异步副作用
 
-When reacting to rapid changes (search boxes, filters), cancel the previous request.
+当响应快速变化(搜索框、过滤器)时,取消之前的请求。
 
-Good
+正确示例
 
 ```ts
 const query = ref('')

@@ -1,70 +1,29 @@
-import { computed, ref, toRef, toValue, watch } from 'vue'
-import type { MaybeRef, MaybeRefOrGetter } from 'vue'
+import { shallowRef } from 'vue'
 
-export interface UseHiddenOptions {
-  hidden?: MaybeRef<boolean>
-  initialHidden?: MaybeRefOrGetter<boolean>
-  syncAria?: boolean
-}
+// 管理元素显示/隐藏状态的组合式函数
+export function useHidden(initial = false) {
+  // 隐藏状态
+  const hidden = shallowRef(initial)
 
-export function useHidden(
-  target?: MaybeRefOrGetter<HTMLElement | null | undefined>,
-  options: UseHiddenOptions = {},
-) {
-  const hidden =
-    options.hidden !== undefined
-      ? toRef(options.hidden)
-      : ref(toValue(options.initialHidden ?? false))
-
-  const targetRef = target ? toRef(target) : ref<HTMLElement | null>(null)
-
-  const attrs = computed(() => {
-    if (!options.syncAria) {
-      return { hidden: hidden.value }
-    }
-    return {
-      hidden: hidden.value,
-      'aria-hidden': hidden.value ? 'true' : 'false',
-    }
-  })
-
-  function setHidden(value: boolean) {
-    hidden.value = value
-  }
-
+  // 显示元素
   function show() {
-    setHidden(false)
+    hidden.value = false
   }
 
+  // 隐藏元素
   function hide() {
-    setHidden(true)
+    hidden.value = true
   }
 
+  // 切换显示/隐藏状态
   function toggle() {
-    setHidden(!hidden.value)
+    hidden.value = !hidden.value
   }
-
-  watch(
-    [targetRef, hidden],
-    ([element, isHidden]) => {
-      if (!element) return
-      element.hidden = isHidden
-      if (options.syncAria) {
-        element.setAttribute('aria-hidden', isHidden ? 'true' : 'false')
-      } else {
-        element.removeAttribute('aria-hidden')
-      }
-    },
-    { immediate: true },
-  )
 
   return {
-    attrs,
     hidden,
-    hide,
-    setHidden,
     show,
-    target: targetRef,
+    hide,
     toggle,
   }
 }

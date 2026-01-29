@@ -1,12 +1,12 @@
 ---
 name: vue-jsx-best-practices
-description: JSX syntax in Vue (e.g., class vs className, JSX plugin config).
+description: Vue 中的 JSX 语法(例如 class vs className、JSX 插件配置)。
 version: 2.0.0
 license: MIT
 author: github.com/vuejs-ai
 ---
 
-Vue JSX best practices and differences from React JSX.
+Vue JSX 最佳实践以及与 React JSX 的差异。
 
 ### JSX
-- Migrating React JSX code to Vue or getting attribute type errors → See [render-function-jsx-vue-vs-react](reference/render-function-jsx-vue-vs-react.md)
+- 将 React JSX 代码迁移到 Vue 或遇到属性类型错误 → 参见 [render-function-jsx-vue-vs-react](reference/render-function-jsx-vue-vs-react.md)

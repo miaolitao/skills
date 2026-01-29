@@ -1,30 +1,30 @@
 ---
 name: create-adaptable-composable
-description: Create a library-grade Vue composable that accepts maybe-reactive inputs (MaybeRef / MaybeRefOrGetter) so callers can pass a plain value, ref, or getter. Normalize inputs with toValue()/toRef() inside reactive effects (watch/watchEffect) to keep behavior predictable and reactive. Use this skill when user asks for creating adaptable or reusable composables.
+description: 创建库级别的 Vue 组合式函数,接受可能是响应式的输入(MaybeRef / MaybeRefOrGetter),以便调用者可以传递普通值、ref 或 getter。在响应式效果(watch/watchEffect)内部使用 toValue()/toRef() 规范化输入,以保持行为可预测和响应式。当用户要求创建可适配或可复用的组合式函数时使用此技能。
 license: MIT
 metadata:
     author: SerKo <https://github.com/serkodev>
     version: "0.1"
-compatibility: Requires Vue 3 (or above) or Nuxt 3 (or above) project
+compatibility: 需要 Vue 3(或更高版本)或 Nuxt 3(或更高版本)项目
 ---
 
-# Create Adaptable Composable
+# 创建可适配的组合式函数
 
-Adaptable composables are reusable functions that can accept both reactive and non-reactive inputs. This allows developers to use the composable in a variety of contexts without worrying about the reactivity of the inputs.
+可适配的组合式函数是可以接受响应式和非响应式输入的可复用函数。这允许开发者在各种上下文中使用组合式函数,而无需担心输入的响应性。
 
-Steps to design an adaptable composable in Vue.js:
-1. Confirm the composable's purpose and API design and expected inputs/outputs.
-2. Identify inputs params that should be reactive (MaybeRef / MaybeRefOrGetter).
-3. Use `toValue()` or `toRef()` to normalize inputs inside reactive effects.
-4. Implement the core logic of the composable using Vue's reactivity APIs.
+在 Vue.js 中设计可适配组合式函数的步骤:
+1. 确认组合式函数的目的、API 设计以及预期的输入/输出
+2. 识别应该是响应式的输入参数(MaybeRef / MaybeRefOrGetter)
+3. 在响应式效果内部使用 `toValue()` 或 `toRef()` 来规范化输入
+4. 使用 Vue 的响应式 API 实现组合式函数的核心逻辑
 
-## Core Type Concepts
+## 核心类型概念
 
-### Type Utilities
+### 类型工具
 
 ```ts
 /**
- * value or writable ref (value/ref/shallowRef/writable computed)
+ * 值或可写的 ref (value/ref/shallowRef/writable computed)
  */
 export type MaybeRef<T = any> = T | Ref<T> | ShallowRef<T> | WritableComputedRef<T>;
 
@@ -34,20 +34,20 @@ export type MaybeRef<T = any> = T | Ref<T> | ShallowRef<T> | WritableComputedRef
 export type MaybeRefOrGetter<T = any> = MaybeRef<T> | ComputedRef<T> | (() => T);
 ```
 
-### Policy and Rules
+### 策略和规则
 
-- Read-only, computed-friendly input: use `MaybeRefOrGetter`
-- Needs to be writable / two-way input: use `MaybeRef`
-- Parameter might be a function value (callback/predicate/comparator): do not use `MaybeRefOrGetter`, or you may accidentally invoke it as a getter.
-- DOM/Element targets: if you want computed/derived targets, use `MaybeRefOrGetter`.
+- 只读、兼容 computed 的输入: 使用 `MaybeRefOrGetter`
+- 需要可写 / 双向输入: 使用 `MaybeRef`
+- 参数可能是函数值(回调/谓词/比较器): 不要使用 `MaybeRefOrGetter`,否则可能会意外将其作为 getter 调用
+- DOM/Element 目标: 如果需要 computed/派生目标,使用 `MaybeRefOrGetter`
 
-When `MaybeRefOrGetter` or `MaybeRef` is used: 
-- resolve reactive value using `toRef()` (e.g. watcher source)
-- resolve non-reactive value using `toValue()`
+当使用 `MaybeRefOrGetter` 或 `MaybeRef` 时: 
+- 使用 `toRef()` 解析响应式值(例如 watcher 源)
+- 使用 `toValue()` 解析非响应式值
 
-### Examples
+### 示例
 
-Adaptable `useDocumentTitle` Composable: read-only title parameter
+可适配的 `useDocumentTitle` 组合式函数: 只读 title 参数
 
 ```ts
 import { watch, toRef } from 'vue'
@@ -60,7 +60,7 @@ export function useDocumentTitle(title: MaybeRefOrGetter<string>) {
 }
 ```
 
-Adaptable `useCounter` Composable: two-way writable count parameter
+可适配的 `useCounter` 组合式函数: 双向可写 count 参数
 
 ```ts
 import { watch, toRef } from 'vue'

@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { computed, onMounted, shallowRef, useTemplateRef } from 'vue'
 
+// 定义组件事件
 const emit = defineEmits<{
   add: [title: string]
 }>()
 
+// 输入框绑定的值
 const input = shallowRef('')
+// 输入框的 DOM 引用
 const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
 const inputId = 'todo-input'
 
+// 计算是否可以提交(输入不为空)
 const canSubmit = computed(() => input.value.trim().length > 0)
 
+// 提交表单
 function submit() {
   if (!canSubmit.value) return
   emit('add', input.value)
@@ -18,6 +23,7 @@ function submit() {
   inputRef.value?.focus()
 }
 
+// 组件挂载后自动聚焦输入框
 onMounted(() => {
   inputRef.value?.focus()
 })
@@ -100,14 +106,14 @@ input::placeholder {
   font-size: 0.9rem;
 }
 
-@media (max-width: 600px) {
-  .input-row {
-    flex-direction: column;
-  }
-
-  .add-button {
-    width: 100%;
-    justify-content: center;
-  }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 </style>

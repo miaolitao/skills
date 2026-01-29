@@ -1,37 +1,37 @@
-# Data Flow Guide
+# 数据流指南
 
-This guide is SUPER important for maintaining clear and predictable data flow in your Vue.js applications. Follow these best practices when passing and receiving data between components.
+本指南对于在 Vue.js 应用中维护清晰且可预测的数据流**极其重要**。在组件之间传递和接收数据时,请遵循这些最佳实践。
 
-## Tasks Checklist
+## 任务清单
 
-- [ ] Follow Props Down / Events Up principle
-- [ ] When using `defineProps`, follow best practices
-- [ ] When using `defineEmits`, follow best practices
-- [ ] When using `v-model`, follow best practices
-- [ ] Use provide/inject to avoid props drilling (over ~3 layers)
+- [ ] 遵循 Props Down / Events Up 原则
+- [ ] 使用 `defineProps` 时,遵循最佳实践
+- [ ] 使用 `defineEmits` 时,遵循最佳实践
+- [ ] 使用 `v-model` 时,遵循最佳实践
+- [ ] 使用 provide/inject 来避免 props 钻取(超过 3 层时)
 
 ---
 
-## Main principle: Props Down / Events Up
+## 核心原则: Props Down / Events Up
 
-The main principle of data flow in Vue.js is **Props Down / Events Up**, this is the most maintainable default. One-way data flow scales well. ([Reference](https://vuejs.org/guide/components/props.html#one-way-data-flow))
+Vue.js 中数据流的核心原则是 **Props Down / Events Up**(属性向下 / 事件向上),这是最易维护的默认方式。单向数据流具有良好的可扩展性。([参考文档](https://vuejs.org/guide/components/props.html#one-way-data-flow))
 
-Bad: child reaches into parent state (tight coupling)
+❌ **不好的做法**: 子组件直接修改父组件状态(紧耦合)
 
 ```ts
-// ❌ e.g. cross-component mutation or global singleton objects
+// ❌ 例如:跨组件修改或使用全局单例对象
 parentState.count++
 ```
 
-Good: explicit contract
+✅ **好的做法**: 显式约定
 
 ```vue
-<!-- Parent -->
+<!-- 父组件 -->
 <Counter :count="count" @increment="count++" />
 ```
 
 ```vue
-<!-- Child -->
+<!-- 子组件 -->
 <script setup lang="ts">
 defineProps<{ count: number }>()
 defineEmits<{ (e: 'increment'): void }>()
@@ -44,15 +44,15 @@ defineEmits<{ (e: 'increment'): void }>()
 
 ---
 
-## `defineProps` best practices
+## `defineProps` 最佳实践
 
-* Treat props as your **public API**: small, stable, well-typed.
-* Avoid “god props” (one prop that configures everything).
-* Never mutate props (they are readonly).
+* 将 props 视为你的**公共 API**: 小巧、稳定、类型良好
+* 避免"上帝 prop"(一个 prop 配置所有内容)
+* 永远不要修改 props(它们是只读的)
 
-### Prefer props destructuring with defaults (Vue 3.5+)
+### 优先使用带默认值的 props 解构 (Vue 3.5+)
 
-In Vue 3.5+, destructured values from `defineProps()` remain reactive, and you can use native JS defaults.
+在 Vue 3.5+ 中,从 `defineProps()` 解构的值保持响应性,并且可以使用原生 JS 默认值。
 
 ```ts
 const { size = 'md' } = defineProps<{
@@ -62,20 +62,20 @@ const { size = 'md' } = defineProps<{
 
 ---
 
-## `defineEmits` best practices
+## `defineEmits` 最佳实践
 
-Good: prefer tuple syntax for event payloads.
+✅ **好的做法**: 优先使用元组语法定义事件载荷
 
 ```ts
 const emit = defineEmits<{
-  change: [id: number] // named tuple syntax
+  change: [id: number] // 命名元组语法
   update: [value: string]
 }>()
 ```
 
-## `v-model` best practices
+## `v-model` 最佳实践
 
-Good: prefer `defineModel()` for component `v-model`:
+✅ **好的做法**: 优先使用 `defineModel()` 实现组件的 `v-model`
 
 ```vue
 <script setup lang="ts">
@@ -91,52 +91,10 @@ const model = defineModel<string>()
 
 ## Provide / Inject
 
-Use provide/inject to avoid props drilling (over ~3 layers).
+使用 provide/inject 来避免 props 钻取(超过 3 层时)。
 
-Good for shared context:
+适用于共享上下文的场景:
 
-* Forms (validation context)
-* Theme / design tokens
-* Parent-child coordination APIs
-* Dependency injection (services)
-
-In TypeScript, prefer `InjectionKey<T>` and keep keys in a shared module.
-
-Bad: deep prop drilling
-
-```vue
-<!-- App -> Layout -> Page -> Card -> Button -->
-<Button :theme="theme" :locale="locale" :permissions="permissions" />
-```
-
-Good: provide context once
-
-```ts
-// keys.ts
-import type { InjectionKey, Ref } from 'vue'
-
-export type Theme = 'light' | 'dark'
-export const themeKey: InjectionKey<Ref<Theme>> = Symbol('theme')
-```
-
-```vue
-<!-- Parent.vue -->
-<script setup lang="ts">
-import { provide, ref } from 'vue'
-import { themeKey } from './keys'
-
-const theme = ref<"light" | "dark">('light')
-provide(themeKey, theme)
-</script>
-```
-
-```vue
-<!-- DeepChild.vue -->
-<script setup lang="ts">
-import { inject } from 'vue'
-import { themeKey } from './keys'
-
-const theme = inject(themeKey)
-if (!theme) throw new Error('themeKey was not provided')
-</script>
-```
+* 表单(验证上下文)
+* 主题 / 设计令牌
+* 父子组件协调 API

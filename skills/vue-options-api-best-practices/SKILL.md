@@ -1,23 +1,23 @@
 ---
 name: vue-options-api-best-practices
-description: "Vue 3 Options API style (data(), methods, this context). Each reference shows Options API solution only."
+description: "Vue 3 Options API 风格(data()、methods、this 上下文)。每个参考仅展示 Options API 解决方案。"
 version: 2.0.0
 license: MIT
 author: github.com/vuejs-ai
 ---
 
-Vue.js Options API best practices, TypeScript integration, and common gotchas.
+Vue.js Options API 最佳实践、TypeScript 集成和常见陷阱。
 
 ### TypeScript
-- Need to enable TypeScript type inference for component properties → See [ts-options-api-use-definecomponent](reference/ts-options-api-use-definecomponent.md)
-- Enabling type safety for Options API this context → See [ts-strict-mode-options-api](reference/ts-strict-mode-options-api.md)
-- Using old TypeScript versions with prop validators → See [ts-options-api-arrow-functions-validators](reference/ts-options-api-arrow-functions-validators.md)
-- Event handler parameters need proper type safety → See [ts-options-api-type-event-handlers](reference/ts-options-api-type-event-handlers.md)
-- Need to type object or array props with interfaces → See [ts-options-api-proptype-complex-types](reference/ts-options-api-proptype-complex-types.md)
-- Injected properties missing TypeScript types completely → See [ts-options-api-provide-inject-limitations](reference/ts-options-api-provide-inject-limitations.md)
-- Complex computed properties lack clear type documentation → See [ts-options-api-computed-return-types](reference/ts-options-api-computed-return-types.md)
+- 需要为组件属性启用 TypeScript 类型推断 → 参见 [ts-options-api-use-definecomponent](reference/ts-options-api-use-definecomponent.md)
+- 为 Options API 的 this 上下文启用类型安全 → 参见 [ts-strict-mode-options-api](reference/ts-strict-mode-options-api.md)
+- 在旧版本 TypeScript 中使用 prop 验证器 → 参见 [ts-options-api-arrow-functions-validators](reference/ts-options-api-arrow-functions-validators.md)
+- 事件处理程序参数需要适当的类型安全 → 参见 [ts-options-api-type-event-handlers](reference/ts-options-api-type-event-handlers.md)
+- 需要使用接口为对象或数组 props 添加类型 → 参见 [ts-options-api-proptype-complex-types](reference/ts-options-api-proptype-complex-types.md)
+- 注入的属性完全缺少 TypeScript 类型 → 参见 [ts-options-api-provide-inject-limitations](reference/ts-options-api-provide-inject-limitations.md)
+- 复杂的计算属性缺少清晰的类型文档 → 参见 [ts-options-api-computed-return-types](reference/ts-options-api-computed-return-types.md)
 
-### Methods & Lifecycle
-- Methods aren't binding to component instance context → See [no-arrow-functions-in-methods](reference/no-arrow-functions-in-methods.md)
-- Lifecycle hooks losing access to component data → See [no-arrow-functions-in-lifecycle-hooks](reference/no-arrow-functions-in-lifecycle-hooks.md)
-- Debounced functions sharing state across component instances → See [stateful-methods-lifecycle](reference/stateful-methods-lifecycle.md)
+### 方法和生命周期
+- 方法未绑定到组件实例上下文 → 参见 [no-arrow-functions-in-methods](reference/no-arrow-functions-in-methods.md)
+- 生命周期钩子失去对组件数据的访问 → 参见 [no-arrow-functions-in-lifecycle-hooks](reference/no-arrow-functions-in-lifecycle-hooks.md)
+- 防抖函数在组件实例之间共享状态 → 参见 [stateful-methods-lifecycle](reference/stateful-methods-lifecycle.md)
